@@ -1,6 +1,5 @@
 package mengwu.project.calculator;
 
-import android.R.integer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CalculatorActivity extends Activity {
+	private static final String TAG = "CALCULATOR_ACITVITY";
 	TextView inputText = null;
 	Button figure0Btn = null;
 	Button figure1Btn = null;
@@ -30,9 +30,13 @@ public class CalculatorActivity extends Activity {
 	Button deleteBtn = null;
 	Button pointBtn = null;
 
-	private String resultStr = "";
+	private String currentShowStr = "";
 	private String oneStrFactor = "";
+	private double oneFactor = 0.0;
 	private double oneNumFactor = 0.0;
+	boolean isLocked = false; // 符号开关
+	boolean isFirstInput = true; // 首次输入开关
+	char operator = ' '; // 记录当前的操作符
 
 	/** Called when the activity is first created. */
 	@Override
@@ -83,97 +87,141 @@ public class CalculatorActivity extends Activity {
 
 	class figure0BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('0');
+			addStr('0');
+			isLocked = false;
 		}
 	}
 
 	class figure1BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('1');
+			addStr('1');
+			isLocked = false;
 		}
 	}
 
 	class figure2BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('2');
+			addStr('2');
+			isLocked = false;
 		}
 	}
 
 	class figure3BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('3');
+			addStr('3');
+			isLocked = false;
 		}
 	}
 
 	class figure4BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('4');
+			addStr('4');
+			isLocked = false;
 		}
 	}
 
 	class figure5BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('5');
+			addStr('5');
+			isLocked = false;
 		}
 	}
 
 	class figure6BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('6');
+			addStr('6');
+			isLocked = false;
 		}
 	}
 
 	class figure7BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('7');
+			addStr('7');
+			isLocked = false;
 		}
 	}
 
 	class figure8BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('8');
+			addStr('8');
+			isLocked = false;
 		}
 	}
 
 	class figure9BtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText('9');
+			addStr('9');
+			isLocked = false;
+		}
+	}
+
+	class pointBtnListener implements OnClickListener {
+		public void onClick(View v) {
+			addStr('.');
+			isLocked = false;
 		}
 	}
 
 	class signPlusBtnListener implements OnClickListener {
 		public void onClick(View v) {
-			// inputText.setText('+');
-			Toast.makeText(CalculatorActivity.this, "+", Toast.LENGTH_SHORT);
-			oneStrFactor = inputText.getText().toString();
-			oneNumFactor = Double.parseDouble(oneStrFactor);
+			Toast.makeText(CalculatorActivity.this, "+", Toast.LENGTH_SHORT).show();
+			currentShowStr = inputText.getText().toString();
+			if (!isLocked) {
+				// 第一次计算
+				if (isFirstInput) {
+					if (null == currentShowStr) {
+						operator = '+';
+					}
+					oneFactor = 0.0;
+				} else { // 非第一次计算
+					double currentShowValue = Double.parseDouble(currentShowStr);
+					if ('+' == operator) {
+						oneFactor += currentShowValue;
+					}
+					if ('-' == operator) {
+						oneFactor -= currentShowValue;
+					}
+					if ('*' == operator) {
+						oneFactor *= currentShowValue;
+					}
+					if ('/' == operator) {
+						if (0 == currentShowValue) {
+							Toast.makeText(CalculatorActivity.this, "Divisor can not be zero",
+									Toast.LENGTH_SHORT).show();
+							inputText.setText(null);
+							// isFirstInput = true;
+							oneFactor = Double.parseDouble(inputText.getText().toString());
+						} else {
+							oneFactor /= currentShowValue;
+						}
+					}
+				}
+			}
+			isLocked = true;
 		}
 	}
 
 	class signMinusBtnListener implements OnClickListener {
 		public void onClick(View v) {
-			// inputText.setText('-');
-			Toast.makeText(CalculatorActivity.this, "-", Toast.LENGTH_SHORT);
+			Toast.makeText(CalculatorActivity.this, "-", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	class signMultipleBtnListener implements OnClickListener {
 		public void onClick(View v) {
-			// inputText.setText('*');
-			Toast.makeText(CalculatorActivity.this, "*", Toast.LENGTH_SHORT);
+			Toast.makeText(CalculatorActivity.this, "*", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	class signDivieBtnListener implements OnClickListener {
 		public void onClick(View v) {
-			// inputText.setText('/');
-			Toast.makeText(CalculatorActivity.this, "/", Toast.LENGTH_SHORT);
+			Toast.makeText(CalculatorActivity.this, "/", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	class equalBtnListen implements OnClickListener {
 		public void onClick(View v) {
-			int charAtPos = resultStr.length();
+			int charAtPos = currentShowStr.length();
 			int time = 0;
 			char lastlyChar = ' ';
 			while (charAtPos > 0) {
@@ -184,23 +232,15 @@ public class CalculatorActivity extends Activity {
 		}
 	}
 
-	private double getfactor(char charFactor) {
-		return 1.0;
-	}
-
-	private double factorStack(double factor) {
-		
-		return 1.0;
-	}
 	private Character getCurrentSign() {
 		String tempStr = inputText.getText().toString();
-		int currentStrLenth = inputText.getText().length();
-		Character lastlySymbol = tempStr.charAt(currentStrLenth);
-		if (0 == currentStrLenth) {
+		int currentShowStrLenth = inputText.getText().length();
+		Character lastlySymbol = tempStr.charAt(currentShowStrLenth);
+		if (0 == currentShowStrLenth) {
 			return '+';
 		} else {
 			if (lastlySymbol == '+' || lastlySymbol == '-' || lastlySymbol == '*' || lastlySymbol == '/') {
-				return tempStr.charAt(currentStrLenth);
+				return tempStr.charAt(currentShowStrLenth);
 			} else {
 				return lastlySymbol;
 			}
@@ -209,14 +249,8 @@ public class CalculatorActivity extends Activity {
 	}
 
 	private String addStr(char btnValue) {
-		int currentStrLenth = inputText.getText().length();
-		if (0 == currentStrLenth) {
-			if ('+' == btnValue || '*' == btnValue || '/' == btnValue) {
-				return "";
-			}
-		}
-		Log.i("info", resultStr);
-		return resultStr += btnValue;
+		Log.i(TAG, currentShowStr);
+		return currentShowStr += btnValue;
 	}
 
 	private String lastlyContext(Character symbol, String factorStr) {
@@ -228,5 +262,4 @@ public class CalculatorActivity extends Activity {
 		}
 
 	}
-
 }
