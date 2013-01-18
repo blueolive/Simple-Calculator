@@ -33,6 +33,7 @@ public class CalculatorActivity extends Activity {
 	private double result = 0.0; // calculation result
 	private String currentStr = ""; // current string
 	boolean isLocked = false; // locked state when clicking operator button
+	boolean isPoint = false; // if exist single point
 	char operator = ' '; // current operator
 
 	/** Called when the activity is first created. */
@@ -155,8 +156,18 @@ public class CalculatorActivity extends Activity {
 
 	class pointBtnListener implements OnClickListener {
 		public void onClick(View v) {
-			inputText.setText(addStr('.'));
+			if (!isPoint) {
+				if (0 == inputText.getText().length()) {
+					inputText.setText("0" + addStr('.'));
+				} else {
+					if ("-" == inputText.getText())
+						inputText.setText("-0" + addStr('.'));
+					else
+						inputText.setText(addStr('.'));
+				}
+			}
 			isLocked = false;
+			isPoint = true;
 		}
 	}
 
@@ -183,6 +194,7 @@ public class CalculatorActivity extends Activity {
 			}
 			operator = '+';
 			currentStr = "";
+			isPoint = false;
 		}
 	}
 
@@ -211,6 +223,7 @@ public class CalculatorActivity extends Activity {
 			}
 			operator = '-';
 			currentStr = "";
+			isPoint = false;
 		}
 	}
 
@@ -241,13 +254,12 @@ public class CalculatorActivity extends Activity {
 			}
 			operator = '*';
 			currentStr = "";
+			isPoint = false;
 		}
 	}
 
 	class signDivieBtnListener implements OnClickListener {
 		public void onClick(View v) {
-			// Toast.makeText(CalculatorActivity.this, "/",
-			// Toast.LENGTH_SHORT).show();
 			currentStr = inputText.getText().toString();
 			if (!isLocked) {
 				if (0 == currentStr.length()) {
@@ -271,6 +283,7 @@ public class CalculatorActivity extends Activity {
 			}
 			operator = '/';
 			currentStr = "";
+			isPoint = false;
 		}
 	}
 
@@ -295,7 +308,8 @@ public class CalculatorActivity extends Activity {
 			break;
 		case '/':
 			if (0 == b) {
-				Toast.makeText(CalculatorActivity.this, "Divisor can not be zero, enter again", Toast.LENGTH_SHORT).show();
+				Toast.makeText(CalculatorActivity.this, "Divisor can not be zero, enter again",
+						Toast.LENGTH_SHORT).show();
 			} else {
 				result = a / b;
 			}
