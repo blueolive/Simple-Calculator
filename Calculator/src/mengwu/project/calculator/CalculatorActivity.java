@@ -10,24 +10,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CalculatorActivity extends Activity {
-	TextView inputText = null;
-	Button figure0Btn = null;
-	Button figure1Btn = null;
-	Button figure2Btn = null;
-	Button figure3Btn = null;
-	Button figure4Btn = null;
-	Button figure5Btn = null;
-	Button figure6Btn = null;
-	Button figure7Btn = null;
-	Button figure8Btn = null;
-	Button figure9Btn = null;
-	Button signPlusBtn = null;
-	Button signMinusBtn = null;
-	Button signMultipleBtn = null;
-	Button signDivieBtn = null;
-	Button equalBtn = null;
-	Button deleteBtn = null;
-	Button pointBtn = null;
+	private TextView inputText = null;
+	private Button figure0Btn = null;
+	private Button figure1Btn = null;
+	private Button figure2Btn = null;
+	private Button figure3Btn = null;
+	private Button figure4Btn = null;
+	private Button figure5Btn = null;
+	private Button figure6Btn = null;
+	private Button figure7Btn = null;
+	private Button figure8Btn = null;
+	private Button figure9Btn = null;
+	private Button signPlusBtn = null;
+	private Button signMinusBtn = null;
+	private Button signMultipleBtn = null;
+	private Button signDivieBtn = null;
+	private Button equalBtn = null;
+	private Button deleteBtn = null;
+	private Button pointBtn = null;
+	private Button clearBtn = null;
 
 	private static final String TAG = "CALCULATOR_ACTIVITY";
 	private double result = 0.0; // calculation result
@@ -81,6 +82,7 @@ public class CalculatorActivity extends Activity {
 		signMinusBtn.setOnClickListener(new signMinusBtnListener());
 		signMultipleBtn.setOnClickListener(new signMultipleBtnListener());
 		signDivieBtn.setOnClickListener(new signDivieBtnListener());
+		pointBtn.setOnClickListener(new pointBtnListener());
 	}
 
 	class figure0BtnListener implements OnClickListener {
@@ -155,13 +157,18 @@ public class CalculatorActivity extends Activity {
 
 	class pointBtnListener implements OnClickListener {
 		public void onClick(View v) {
+			Log.d(TAG, isPoint + "");
 			if (!isPoint) {
 				if (0 == inputText.getText().length()) {
-					inputText.setText("0" + addStr('.'));
+					addStr('0');
+					inputText.setText(addStr('.'));
 				} else {
-					if ("-" == inputText.getText())
-						inputText.setText("-0" + addStr('.'));
-					else
+					Log.d(TAG, inputText.getText() + "");
+					if (1 == inputText.getText().toString().length()) {
+						addStr('-');
+						addStr('0');
+						inputText.setText(addStr('.'));
+					} else
 						inputText.setText(addStr('.'));
 				}
 			}
@@ -323,7 +330,7 @@ public class CalculatorActivity extends Activity {
 
 	private String addStr(char btnValue) {
 		currentStr += btnValue;
-		Log.i(TAG, "Current str is --" + currentStr);
+		Log.i(TAG, "Current str is: " + currentStr);
 		return currentStr;
 	}
 }
