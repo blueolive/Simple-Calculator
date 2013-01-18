@@ -88,7 +88,6 @@ public class CalculatorActivity extends Activity {
 			inputText.setText(addStr('0'));
 			isLocked = false;
 		}
-
 	}
 
 	class figure1BtnListener implements OnClickListener {
