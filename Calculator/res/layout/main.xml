@@ -18,8 +18,16 @@
         <TableRow android:id="@+id/TableRow00" >
 
             <Button
+                android:id="@+id/clear"
+                android:layout_column="0"
+                android:layout_span="2"
+                android:text="C"
+                android:textSize="28px" />
+
+            <Button
                 android:id="@+id/delete"
-                android:layout_column="3"
+                android:layout_column="2"
+                android:layout_span="2"
                 android:text="DEL"
                 android:textSize="28px" />
         </TableRow>

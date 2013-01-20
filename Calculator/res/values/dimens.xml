@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
     <resources>
-        <dimen name="TenPx">18pt</dimen>
+        <dimen name="TenPx">16pt</dimen>
     </resources>
