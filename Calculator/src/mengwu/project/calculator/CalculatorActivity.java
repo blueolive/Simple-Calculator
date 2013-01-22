@@ -29,6 +29,7 @@ public class CalculatorActivity extends Activity {
 	Button equalBtn = null;
 	Button deleteBtn = null;
 	Button clearBtn = null;
+//	Button clearBtn = null;
 
 	private static final String TAG = "CALCULATOR_ACTIVITY";
 	private double result = 0.0; // calculation result
