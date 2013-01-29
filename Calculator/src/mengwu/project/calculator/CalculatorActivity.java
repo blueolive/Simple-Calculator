@@ -334,9 +334,9 @@ public class CalculatorActivity extends Activity {
 	}
 
 	private double calculator(double a, double b, char opt) {
-		Log.d(TAG, "a = " + a);
-		Log.d(TAG, "b = " + b);
-		Log.d(TAG, "opt = " + opt);
+//		Log.d(TAG, "a = " + a);
+//		Log.d(TAG, "b = " + b);
+//		Log.d(TAG, "opt = " + opt);
 		switch (opt) {
 		case '+':
 			result = a + b;
