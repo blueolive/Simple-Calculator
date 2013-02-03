@@ -297,7 +297,6 @@ public class CalculatorActivity extends Activity {
 		public void onClick(View v) {
 			currentStr = inputText.getText().toString();
 			if (!isLocked) {
-				Log.d(TAG, operator + "");
 				if (0 != currentStr.length()) {
 					if (' ' != operator) {
 						Log.d(TAG, currentStr);
@@ -369,7 +368,7 @@ public class CalculatorActivity extends Activity {
 
 	private String addStr(char btnValue) {
 		currentStr += btnValue;
-		Log.i(TAG, "Current str is --" + currentStr);
+		Log.i(TAG, "Current str is " + currentStr);
 		return currentStr;
 	}
 }
