@@ -164,12 +164,10 @@ public class CalculatorActivity extends Activity {
 		public void onClick(View v) {
 			if (!isPoint) {
 				if (0 == inputText.getText().length()) {
-					inputText.setText("0" + addStr('.'));
+					addStr('0');
+					inputText.setText(addStr('.'));
 				} else {
-					if ("-" == inputText.getText())
-						inputText.setText("-0" + addStr('.'));
-					else
-						inputText.setText(addStr('.'));
+					inputText.setText(addStr('.'));
 				}
 			}
 			isLocked = false;
@@ -211,7 +209,7 @@ public class CalculatorActivity extends Activity {
 			if (!isLocked) {
 				if (0 == currentStr.length()) {
 					operator = '-';
-					inputText.setText(addStr('-'));
+					// inputText.setText(addStr('-'));
 					Log.d(TAG, currentStr);
 				} else {
 					if (' ' == operator) {
@@ -219,6 +217,7 @@ public class CalculatorActivity extends Activity {
 						result = Double.parseDouble(currentStr);
 						currentStr = "";
 					} else {
+						Log.d(TAG, currentStr);
 						double currentShowValue = Double.parseDouble(currentStr);
 						result = calculator(result, currentShowValue, operator);
 						inputText.setText(result + "");
@@ -299,12 +298,15 @@ public class CalculatorActivity extends Activity {
 			currentStr = inputText.getText().toString();
 			if (!isLocked) {
 				Log.d(TAG, operator + "");
-				if (' ' != operator) {
-					double currentShowValue = Double.parseDouble(currentStr);
-					result = calculator(result, currentShowValue, operator);
-					inputText.setText(result + "");
+				if (0 != currentStr.length()) {
+					if (' ' != operator) {
+						Log.d(TAG, currentStr);
+						double currentShowValue = Double.parseDouble(currentStr);
+						result = calculator(result, currentShowValue, operator);
+						inputText.setText(result + "");
 
-					currentStr = "";
+						currentStr = "";
+					}
 				}
 				isLocked = true;
 			}
@@ -316,8 +318,10 @@ public class CalculatorActivity extends Activity {
 		public void onClick(View v) {
 			currentStr = inputText.getText().toString();
 			if (!isLocked) {
-				currentStr = currentStr.substring(0, currentStr.length() - 1);
-				inputText.setText(currentStr);
+				if (currentStr.length() > 0) {
+					currentStr = currentStr.substring(0, currentStr.length() - 1);
+					inputText.setText(currentStr);
+				}
 			}
 		}
 	}
@@ -334,8 +338,8 @@ public class CalculatorActivity extends Activity {
 	}
 
 	private double calculator(double a, double b, char opt) {
-//		Log.d(TAG, "a = " + a);
-//		Log.d(TAG, "b = " + b);
+		// Log.d(TAG, "a = " + a);
+		// Log.d(TAG, "b = " + b);
 		Log.d(TAG, "opt = " + opt);
 		switch (opt) {
 		case '+':
