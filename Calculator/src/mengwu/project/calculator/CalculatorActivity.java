@@ -342,7 +342,7 @@ public class CalculatorActivity extends Activity {
 		DecimalFormat df = new DecimalFormat("0.0000000000");
 		// Log.d(TAG, "a = " + a);
 		// Log.d(TAG, "b = " + b);
-		Log.d(TAG, "opt = " + opt);
+//		Log.d(TAG, "opt = " + opt);
 		switch (opt) {
 		case '+':
 			result = Double.parseDouble(df.format(a + b));
