@@ -1,5 +1,7 @@
 package mengwu.project.calculator;
 
+import java.text.DecimalFormat;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -337,25 +339,26 @@ public class CalculatorActivity extends Activity {
 	}
 
 	private double calculator(double a, double b, char opt) {
+		DecimalFormat df = new DecimalFormat("0.0000000000");
 		// Log.d(TAG, "a = " + a);
 		// Log.d(TAG, "b = " + b);
 		Log.d(TAG, "opt = " + opt);
 		switch (opt) {
 		case '+':
-			result = a + b;
+			result = Double.parseDouble(df.format(a + b));
 			break;
 		case '-':
-			result = a - b;
+			result = Double.parseDouble(df.format(a - b));
 			break;
 		case '*':
-			result = a * b;
+			result = Double.parseDouble(df.format(a * b));
 			break;
 		case '/':
 			if (0 == b) {
 				Toast.makeText(CalculatorActivity.this, "Divisor can not be zero, enter again",
 						Toast.LENGTH_SHORT).show();
 			} else {
-				result = a / b;
+				result = Double.parseDouble(df.format(a / b));
 			}
 			break;
 		default:
