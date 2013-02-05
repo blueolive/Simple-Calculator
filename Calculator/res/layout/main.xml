@@ -15,7 +15,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:stretchColumns="*"
-		android:background="@drawable/gray">
+		android:background="@drawable/blue">
 
 		<TableRow android:id="@+id/TableRow00">
 
