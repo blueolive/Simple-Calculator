@@ -374,4 +374,5 @@ public class CalculatorActivity extends Activity {
 		Log.i(TAG, "Current str is " + currentStr);
 		return currentStr;
 	}
+	/////
 }
