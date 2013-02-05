@@ -1,7 +1,6 @@
 package mengwu.project.calculator;
 
 import java.text.DecimalFormat;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -165,11 +164,17 @@ public class CalculatorActivity extends Activity {
 	class pointBtnListener implements OnClickListener {
 		public void onClick(View v) {
 			if (!isPoint) {
-				if (0 == inputText.getText().length()) {
+					Log.d(TAG, "opertor = " + operator);
+				if (0 == inputText.getText().length() || ' ' != operator) {
 					addStr('0');
 					inputText.setText(addStr('.'));
 				} else {
-					inputText.setText(addStr('.'));
+					Log.d(TAG, "opertor = " + operator);
+					if (' ' == operator) {
+						addStr('0');
+						inputText.setText(addStr('.'));
+					} else
+						inputText.setText(addStr('.'));
 				}
 			}
 			isLocked = false;
@@ -191,7 +196,7 @@ public class CalculatorActivity extends Activity {
 					} else {
 						double currentShowValue = Double.parseDouble(currentStr);
 						result = calculator(result, currentShowValue, operator);
-						inputText.setText(result + "");
+						inputText.setText(formatResult(result));
 						operator = '+';
 						currentStr = ""; // clear current string
 					}
@@ -222,7 +227,7 @@ public class CalculatorActivity extends Activity {
 						Log.d(TAG, currentStr);
 						double currentShowValue = Double.parseDouble(currentStr);
 						result = calculator(result, currentShowValue, operator);
-						inputText.setText(result + "");
+						inputText.setText(formatResult(result));
 						operator = '-';
 						currentStr = ""; // clear current string
 					}
@@ -253,7 +258,7 @@ public class CalculatorActivity extends Activity {
 						double currentShowValue = Double.parseDouble(currentStr);
 						Log.d(TAG, "opt = " + operator);
 						result = calculator(result, currentShowValue, operator);
-						inputText.setText(result + "");
+						inputText.setText(formatResult(result));
 						operator = '-';
 						currentStr = ""; // clear current string
 					}
@@ -282,7 +287,7 @@ public class CalculatorActivity extends Activity {
 						double currentShowValue = Double.parseDouble(currentStr);
 						Log.d(TAG, "opt = " + operator);
 						result = calculator(result, currentShowValue, operator);
-						inputText.setText(result + "");
+						inputText.setText(formatResult(result));
 						operator = '-';
 						currentStr = ""; // clear current string
 					}
@@ -304,14 +309,14 @@ public class CalculatorActivity extends Activity {
 						Log.d(TAG, currentStr);
 						double currentShowValue = Double.parseDouble(currentStr);
 						result = calculator(result, currentShowValue, operator);
-						inputText.setText(result + "");
-
+						inputText.setText(formatResult(result));
 						currentStr = "";
 					}
 				}
 				isLocked = true;
 			}
 			operator = ' ';
+			isPoint = false;
 		}
 	}
 
@@ -324,6 +329,7 @@ public class CalculatorActivity extends Activity {
 					inputText.setText(currentStr);
 				}
 			}
+			currentStr = "";
 		}
 	}
 
@@ -342,7 +348,7 @@ public class CalculatorActivity extends Activity {
 		DecimalFormat df = new DecimalFormat("0.0000000000");
 		// Log.d(TAG, "a = " + a);
 		// Log.d(TAG, "b = " + b);
-//		Log.d(TAG, "opt = " + opt);
+		// Log.d(TAG, "opt = " + opt);
 		switch (opt) {
 		case '+':
 			result = Double.parseDouble(df.format(a + b));
@@ -374,5 +380,12 @@ public class CalculatorActivity extends Activity {
 		Log.i(TAG, "Current str is " + currentStr);
 		return currentStr;
 	}
-	/////
+	
+	// cut off zero & point from the number of double-type
+	private String formatResult(double result) {
+		String covertTo = "";
+		covertTo = Double.toString(result);
+		covertTo = covertTo.replaceAll("0+$", "").replaceAll("[.]$","");
+		return covertTo;
+	}
 }
