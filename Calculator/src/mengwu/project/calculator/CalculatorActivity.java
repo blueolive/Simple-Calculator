@@ -164,17 +164,13 @@ public class CalculatorActivity extends Activity {
 	class pointBtnListener implements OnClickListener {
 		public void onClick(View v) {
 			if (!isPoint) {
-					Log.d(TAG, "opertor = " + operator);
-				if (0 == inputText.getText().length() || ' ' != operator) {
+				Log.d(TAG, "opertor = " + operator);
+				Log.d(TAG, "currentStr = " + currentStr);
+				if(0 == currentStr.length()) {
 					addStr('0');
 					inputText.setText(addStr('.'));
 				} else {
-					Log.d(TAG, "opertor = " + operator);
-					if (' ' == operator) {
-						addStr('0');
-						inputText.setText(addStr('.'));
-					} else
-						inputText.setText(addStr('.'));
+					inputText.setText(addStr('.'));
 				}
 			}
 			isLocked = false;
@@ -185,6 +181,7 @@ public class CalculatorActivity extends Activity {
 	class signPlusBtnListener implements OnClickListener {
 		public void onClick(View v) {
 			currentStr = inputText.getText().toString();
+			Log.d(TAG, "currentStr = " + currentStr);
 			if (!isLocked) {
 				if (0 == currentStr.length()) {
 					operator = '+';
@@ -323,13 +320,19 @@ public class CalculatorActivity extends Activity {
 	class deleteBtnListener implements OnClickListener {
 		public void onClick(View v) {
 			currentStr = inputText.getText().toString();
-			if (!isLocked) {
+//			if (!isLocked) {
 				if (currentStr.length() > 0) {
+					if('.' == currentStr.charAt(currentStr.length() - 1)) {
+						Log.d(TAG, "ispoint = " + isPoint);
+						isPoint = false;
+					} else {
+						isPoint = true;
+					}
 					currentStr = currentStr.substring(0, currentStr.length() - 1);
 					inputText.setText(currentStr);
 				}
-			}
-			currentStr = "";
+//			}
+//			currentStr = "";
 		}
 	}
 
