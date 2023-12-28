@@ -1,0 +1,33 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on tags starting with 'v'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Extract Version
+        id: extract_version
+        run: echo "::set-output name=version::$(echo $GITHUB_REF | sed 's/refs\/tags\///' | sed 's/v//')"
+
+
+      - name: Update Version
+        run: echo "version=${{ steps.extract_version.outputs.version }}" >> version.txt
+
+      - name: Create Release
+        run: gh release create ${{ steps.extract_version.outputs.version }} -t "Release ${{ steps.extract_version.outputs.version }}"
+
+      - name: Attach Assets
+        run: gh release upload ${{ steps.extract_version.outputs.version }} path/to/asset
