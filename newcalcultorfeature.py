@@ -17,3 +17,12 @@ def main()
 
 if _ _name_ _ == "_ _main_ _":
     main()
+
+def add_number(a, b):
+  """Add two numbers."""
+  return a + b
+
+
+def_subtract_numbers(a, b):
+  ""Subtract b from a.""
+  return a -b
