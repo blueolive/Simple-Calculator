@@ -26,3 +26,15 @@ def add_number(a, b):
 def_subtract_numbers(a, b):
   ""Subtract b from a.""
   return a -b
+
+def multiply_numbers(a, b):
+  ""Multiply two number.""
+  return a * b
+
+
+def devide_numbers(a, b)
+  """Devide A by b."""
+  if b !=0:
+     return a / b
+  else
+     return "Cannot divide by zero"
